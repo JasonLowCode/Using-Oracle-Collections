@@ -108,7 +108,7 @@ BEGIN
 END;
 ```
 
-## 7. SQL select Collections Data
+## 7. SQL show all Collections Data
 
 ```
 SELECT C1.ID,C1.CARD_TYPE,C2.*  FROM MY_WALLET C1,TABLE(C1.CARDS) C2
