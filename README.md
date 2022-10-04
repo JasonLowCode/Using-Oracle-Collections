@@ -1,4 +1,4 @@
-# Using-Oracle-Collections
+# Using-Oracle-Collections Example
 
 ## 1. Create Type
 
@@ -59,14 +59,16 @@ IS
         I INTEGER;
     BEGIN
         SELECT CARDS INTO V_CARD_INFO FROM MY_WALLET WHERE ID = P_CARD_TYPE_ID;
+        -- if card exist
         IF V_CARD_INFO.EXISTS(1) THEN
             I := V_CARD_INFO.LAST;
+            -- add a new card after this
             V_CARD_INFO.EXTEND(1);
             V_CARD_INFO(I+1) := MY_CARD(P_CARD_NAME,P_CARD_NUM);
             UPDATE MY_WALLET SET CARDS=V_CARD_INFO WHERE ID=P_CARD_TYPE_ID;
         ELSE
-            UPDATE MY_WALLET SET CARDS=MY_CARD_NST(MY_CARD(P_CARD_NAME,P_CARD_NUM))
-            WHERE ID=P_CARD_TYPE_ID;
+            -- if no card exist, add this card
+            UPDATE MY_WALLET SET CARDS=MY_CARD_NST(MY_CARD(P_CARD_NAME,P_CARD_NUM)) WHERE ID=P_CARD_TYPE_ID;
         END IF;
     END;
     
@@ -76,9 +78,12 @@ IS
         I INTEGER;
     BEGIN
         SELECT CARDS INTO V_CARD_INFO FROM MY_WALLET WHERE ID=P_CARD_TYPE_ID;
+        -- if card exist
         IF V_CARD_INFO.EXISTS(1) THEN
+            -- loop all cards
             FOR IDX IN V_CARD_INFO.FIRST..V_CARD_INFO.LAST LOOP
-                HTP.P('MY CARD NAME:' || V_CARD_INFO(IDX).CARD_NAME || '/ CARD NO: ' || V_CARD_INFO(IDX).CARD_NUM );
+                -- print this card
+                HTP.P('MY CARD NAME:' || V_CARD_INFO(IDX).CARD_NAME || ', CARD NO: ' || V_CARD_INFO(IDX).CARD_NUM );
             END LOOP;
         ELSE
             HTP.P('NO SUCH TYPE OF CARD IN MY WALLET.');
@@ -93,8 +98,10 @@ END;
 
 ```
 BEGIN
+    -- card type 1 (Credit Card)
     MAG_CARD_PKG.ADD_CARD_INFO(1,'AIB',123435353);
     MAG_CARD_PKG.ADD_CARD_INFO(1,'BOI',645345233);
+    -- card type 2 (Library Card)
     MAG_CARD_PKG.ADD_CARD_INFO(2,'Central Library',4235234324);
     -- Show all cards with card type 1 (Credit Card)
     MAG_CARD_PKG.DISPLAY_CARD_INFO(1);
