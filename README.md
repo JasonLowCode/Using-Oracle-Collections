@@ -1,1 +1,11 @@
 # Using-Oracle-Collections
+
+## 1. Create Type
+
+、、、
+
+CREATE TYPE MY_CARD AS OBJECT (CARD_NAME VARCHAR2(25),CARD_NUM NUMBER);
+
+CREATE TYPE MY_CARD_NST AS TABLE OF MY_CARD;
+
+、、、
