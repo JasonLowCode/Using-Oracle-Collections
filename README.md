@@ -89,7 +89,7 @@ END;
 
 ```
 
-## 6. Insert and Show Collections Data
+## 6. Add and Display Collections Data
 
 ```
 BEGIN
